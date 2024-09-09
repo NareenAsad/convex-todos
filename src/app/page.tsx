@@ -1,14 +1,13 @@
 "use client";
 
-import { title } from "process";
 import { useState } from "react";
 import { NewTodoForm } from "./_components/new-todo-form";
 
 type ToDoItem = {
-  title: String;
-  description: String;
+  title: string;
+  description: string;
   completed: boolean;
-}
+};
 
 export default function Home() {
   const [todos, setTodos] = useState<ToDoItem[]>([
@@ -26,33 +25,41 @@ export default function Home() {
             description={description}
             completed={completed}
             onCompleteChanged={(newValue) => {
-              setTodos(prev => {
+              setTodos((prev) => {
                 const newTodos = [...prev];
                 newTodos[index].completed = newValue;
-                return newTodos
-              })
+                return newTodos;
+              });
             }}
             onRemove={() => {
-              setTodos(prev => {
+              setTodos((prev) => {
                 const newTodos = [...prev].filter((_, i) => i !== index);
                 return newTodos;
-              })
+              });
             }}
           />
         ))}
       </ul>
-      <NewTodoForm onCreate={(title, description) => {
-        setTodos(prev => {
-          const newTodos = [...prev];
-          newTodos.push({ title, description, completed: false });
-          return newTodos;
-        });
-      }} />
+      <NewTodoForm
+        onCreate={(title, description) => {
+          setTodos((prev) => {
+            const newTodos = [...prev];
+            newTodos.push({ title, description, completed: false });
+            return newTodos;
+          });
+        }}
+      />
     </div>
   );
 }
 
-function ToDoItem({ title, description, completed, onCompleteChanged, onRemove }: {
+function ToDoItem({
+  title,
+  description,
+  completed,
+  onCompleteChanged,
+  onRemove
+}: {
   title: string;
   description: string;
   completed: boolean;
@@ -64,14 +71,20 @@ function ToDoItem({ title, description, completed, onCompleteChanged, onRemove }
       <input
         type="checkbox"
         checked={completed}
-        onChange={e => onCompleteChanged(e.target.checked)}
+        onChange={(e) => onCompleteChanged(e.target.checked)}
       />
       <div>
         <p className="font-semibold">{title}</p>
         <p className="text-sm text-gray-600">{description}</p>
       </div>
       <div className="ml-auto">
-        <button type="button" className="text-red-500" onClick={() => onRemove()}>Remove</button>
+        <button
+          type="button"
+          className="text-red-500"
+          onClick={() => onRemove()}
+        >
+          Remove
+        </button>
       </div>
     </li>
   );
