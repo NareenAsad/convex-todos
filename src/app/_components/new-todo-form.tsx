@@ -1,16 +1,16 @@
 import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
-type TodoFormProps = {
-    onCreate: (title: string, description: string) => void;
-}
-
-export function NewTodoForm({ onCreate }: TodoFormProps) {
+export function NewTodoForm() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const createTodo = useMutation(api.functions.createTodo);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onCreate(title, description);
+        await createTodo({title, description});
         setTitle("");
         setDescription("");
     };
